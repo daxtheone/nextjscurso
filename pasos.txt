@@ -1,0 +1,11 @@
+1 => npm init -y ( para crear el primer package.json )
+2 => npm add next react react-dom
+3 =>  package.json
+          "scripts": {
+                "test": "echo \"Error: no test specified\" && exit 1",
+                "dev": "next",
+                "build": "next build",
+                "start": "next start"
+            },
+4 => Creamos la carpeta Pages
+5 =>  
