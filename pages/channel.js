@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 
 function channel({ channel, audioClips, series }) {
   console.log(audioClips)
@@ -9,7 +10,15 @@ function channel({ channel, audioClips, series }) {
       <h2>Últimos podcasts</h2>
 
       { audioClips.map((clip)=>{
-        return <div key={clip.id}>{ clip.title }</div>
+        return (
+          <div>
+            <Link href={`/podcast?id=${clip.id}`} key={clip.id}>
+              <a>
+                { clip.title }
+              </a>
+            </Link>
+          </div>
+        )
       }) }
       <h2>Series</h2>
        { series.map((serie)=>{
@@ -39,7 +48,9 @@ function channel({ channel, audioClips, series }) {
             margin-bottom: 0.5em;
         }
         .channel img {
-            width: 100%;
+          border-radius: 3px;
+          box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
+          width: 100%;
         }
         h2 {
             padding: 5px;
@@ -61,18 +72,38 @@ function channel({ channel, audioClips, series }) {
 }
 
 export async function getServerSideProps( { query }) {
+
   const channelId = query.id
+
+  let [reqChannel, reqSeries, reqAudios] = await Promise.all([
+    fetch(`https://api.audioboom.com/channels/${channelId}`),
+    fetch(`https://api.audioboom.com/channels/${channelId}/child_channels`),
+    fetch(`https://api.audioboom.com/channels/${channelId}/audio_clips`)
+  ])
+
+  const dataChannel = await reqChannel.json()
+  const channel = dataChannel.body.channel 
+
+  const dataAudios = await reqAudios.json()
+  const audioClips = dataAudios.body.audio_clips  
+
+  const dataSeries = await reqSeries.json()
+  const series = dataSeries.body.channels
+  
+  /*
   const reqChannel = await fetch(`https://api.audioboom.com/channels/${channelId}`)
   const dataChannel = await reqChannel.json()
   const channel = dataChannel.body.channel 
 
-  const reqAudio = await fetch(`https://api.audioboom.com/channels/${channelId}/audio_clips`)
-  const dataAudios = await reqAudio.json()
-  const audioClips = dataAudios.body.audio_clips
+  const reqAudios = await fetch(`https://api.audioboom.com/channels/${channelId}/audio_clips`)
+  const dataAudios = await reqAudios.json()
+  const audioClips = dataAudios.body.audio_clips  
 
   const reqSeries = await fetch(`https://api.audioboom.com/channels/${channelId}/child_channels`)
   const dataSeries = await reqSeries.json()
-  const series = dataSeries.body.channels
+  const series = dataSeries.body.channels  
+
+  */
 
   return { props: { channel, audioClips, series } };
 }
