@@ -1,56 +1,25 @@
 import React from 'react'
-import Link from 'next/link'
+import ListAudioClips from '../components/ListAudioClips'
+import ListSeries from '../components/ListSeries'
 
 function channel({ channel, audioClips, series }) {
-  console.log(audioClips)
+  console.log(channel)
   return (
     <>
-      <header>Podcasts</header>
+      <Layout title={`Canal ${channel.title}`}></Layout>
       <h1>{channel.title}</h1>
       <h2>Últimos podcasts</h2>
-
       { audioClips.map((clip)=>{
-        return (
-          <div>
-            <Link href={`/podcast?id=${clip.id}`} key={clip.id}>
-              <a>
-                { clip.title }
-              </a>
-            </Link>
-          </div>
-        )
+        <ListAudioClips clip={clip} />
       }) }
       <h2>Series</h2>
        { series.map((serie)=>{
-        return <div key={serie.id}>{ serie.title }</div>
+         <ListSeries serie={serie} />
       }) }
       <style jsx>{`
-        header {
-            color: #fff;
-            background: #8756ca;
-            padding: 15px;
-            text-align: center;
-        }
         h1 {
           font-weight: 600;
           padding: 15px;
-        }
-        .channels {
-            display: grid;
-            grid-gap: 15px;
-            padding: 15px;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        }
-        .channel {
-            display: block;
-            border-radius: 3px;
-            box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
-            margin-bottom: 0.5em;
-        }
-        .channel img {
-          border-radius: 3px;
-          box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
-          width: 100%;
         }
         h2 {
             padding: 5px;
@@ -59,13 +28,6 @@ function channel({ channel, audioClips, series }) {
             margin: 0;
             text-aling: center;
         }
-    `}</style>
-    <style jsx global>{`
-        body {
-            margin: 1;
-            font-family: system-ui;
-            background: white;
-        }   
     `}</style>
     </>
   )
