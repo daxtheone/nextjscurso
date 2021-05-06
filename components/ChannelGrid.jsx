@@ -8,7 +8,6 @@ export default class ChannelGrid extends React.Component {
         { channels.map((channel)=>(
             <Link href={`/channel?id=${channel.id}`} key={channel.id}>
                 <a className='channel'>
-                    { channel.title }
                     <img src={ channel.urls.logo_image.original } alt='' />
                     <h2>{ channel.title }</h2>
                 </a>

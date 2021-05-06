@@ -1,20 +1,20 @@
 import React from 'react'
+import Layout from '../components/Layout'
 import ListAudioClips from '../components/ListAudioClips'
 import ListSeries from '../components/ListSeries'
 
 function channel({ channel, audioClips, series }) {
-  console.log(channel)
   return (
     <>
       <Layout title={`Canal ${channel.title}`}></Layout>
       <h1>{channel.title}</h1>
       <h2>Últimos podcasts</h2>
       { audioClips.map((clip)=>{
-        <ListAudioClips clip={clip} />
+        return <ListAudioClips clip={clip} />
       }) }
       <h2>Series</h2>
        { series.map((serie)=>{
-         <ListSeries serie={serie} />
+         return <ListSeries serie={serie} />
       }) }
       <style jsx>{`
         h1 {
